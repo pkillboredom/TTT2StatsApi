@@ -19,6 +19,9 @@
     <None Update="sql\PlayerRoundInfoQuery.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="sql\RoundCreditTransactionQuery.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="sql\RoundPlayerDeathsQuery.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
