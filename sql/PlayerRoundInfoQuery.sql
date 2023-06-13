@@ -4,8 +4,8 @@ SELECT karm.round_id AS round_id,
        rt.player_role,
        karm.player_starting_karma,
        karm.player_ending_karma,
-       COUNT(k.id) AS kills,
-       COUNT(d.id) AS deaths
+       COUNT(DISTINCT k.id) AS kills,
+       COUNT(DISTINCT d.id) AS deaths
   FROM ttt2stats_players p
        JOIN
        ttt2stats_player_round_karma karm ON p.steamid = karm.player_steamid AND 
