@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ttt2stats-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount your sv.db file from the host
+      - /path/to/your/sv.db:/data/sv.db:ro
+    command: ["--sv-path", "/data/sv.db"]
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: unless-stopped

@@ -7,6 +7,16 @@ namespace TTT2StatsApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Parse command-line arguments for SV_Path
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i] == "--sv-path" && i + 1 < args.Length)
+                {
+                    builder.Configuration["SV_Path"] = args[i + 1];
+                    break;
+                }
+            }
+
             // Add services to the container.
 
             builder.Services.AddControllers();
