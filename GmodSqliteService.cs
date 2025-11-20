@@ -1,5 +1,4 @@
-﻿using System.Data.SqlClient;
-using System.Data.SQLite;
+﻿using Microsoft.Data.Sqlite;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TTT2StatsApi.Models;
@@ -33,7 +32,7 @@ namespace TTT2StatsApi
             {
                 _logger.LogCritical("The path to the Garry's Mod sv.db file was not set!");
             }
-            _connectionString = $"Data Source={gmodSvPath};Compress=True;";
+            _connectionString = $"Data Source={gmodSvPath}";
             // Read ~\sql\PlayerRoundInfoQuery.sql file into PlayerRoundInfoQueryText
             PlayerRoundInfoQueryText = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "sql", "PlayerRoundInfoQuery.sql"));
             RoundPlayerDeathQueryText = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "sql", "RoundPlayerDeathsQuery.sql"));
@@ -41,7 +40,7 @@ namespace TTT2StatsApi
         }
         public IEnumerable<CombatLogRow> GetCombatLog(int rowLimit = 30)
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = CombatLogQueryText;
@@ -65,7 +64,7 @@ namespace TTT2StatsApi
         }
         public IEnumerable<RoundRow> GetRounds(int rowLimit = 100)
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = $"SELECT * FROM ttt2stats_rounds ORDER BY id DESC LIMIT {rowLimit};";
@@ -85,7 +84,7 @@ namespace TTT2StatsApi
         }
         public RoundRow? GetRoundById(int id)
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = "SELECT * FROM ttt2stats_rounds WHERE id = @id LIMIT 1;";
@@ -107,7 +106,7 @@ namespace TTT2StatsApi
         }
         public IEnumerable<RoundRow> GetRoundsByMap(string map, int rowLimit = 100)
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = $"SELECT * FROM ttt2stats_rounds WHERE map=@map ORDER BY id DESC LIMIT {rowLimit};";
@@ -128,7 +127,7 @@ namespace TTT2StatsApi
         }
         public IEnumerable<MapCountRow> GetMapCounts()
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = "SELECT * FROM v_GetMapPlayCount;";
@@ -145,7 +144,7 @@ namespace TTT2StatsApi
         }
         public IEnumerable<PlayerRoundInfoRow> GetPlayerRoundInfos(int roundId)
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = PlayerRoundInfoQueryText;
@@ -169,7 +168,7 @@ namespace TTT2StatsApi
 
         public IEnumerable<PlayerDeathRow> GetPlayerKillsDeathsByRoundIdAndSteamId(int id, string steamId)
         {
-            using var connection = new SQLiteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             using var command = connection.CreateCommand();
             command.CommandText = RoundPlayerDeathQueryText;
